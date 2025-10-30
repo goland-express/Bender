@@ -1,7 +1,7 @@
 package main
 
 import (
-	"bender/internal/player"
+	"bender/internal/bot/player"
 	"fmt"
 	"log"
 	"os"
