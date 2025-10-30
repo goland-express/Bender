@@ -30,6 +30,17 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	args = args[1:]
 
 	if command == "quote" {
+		if s.State.User.ID == m.ReferencedMessage.Author.ID {
+			_, err := s.ChannelMessageSendReply(m.ChannelID, "You can't quote me! I'm unquotable, dude.", m.Reference())
+
+			if err != nil {
+				log.Printf("Error: %v", err)
+				return
+			}
+
+			return
+		}
+
 		if m.ReferencedMessage == nil {
 			_, err := s.ChannelMessageSendReply(m.ChannelID, "You need to reply to a message in order to make a quote.", m.Reference())
 
