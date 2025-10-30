@@ -1,8 +1,6 @@
 package commander
 
 import (
-	"fmt"
-	"math/rand"
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
