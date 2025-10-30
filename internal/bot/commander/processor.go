@@ -12,21 +12,24 @@ func Processor(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	if !strings.HasPrefix(m.Content, commanderPrefix) {
-		fmt.Println("Hasn't prefix")
-		return
-	}
-
 	content, _ := strings.CutPrefix(m.Content, commanderPrefix)
-	args := strings.Split(strings.TrimSpace(content), commanderPrefix)
+	args := strings.Split(strings.TrimSpace(content), " ")
 
 	cmdID := args[0]
 	args = args[1:]
 
-	cmd, ok := command(cmdID)
-
 	msn := NewMessenger(s, m.Message)
 	ctx := NewContext(s, msn, args)
+
+	ctx.SetAuthorID(msn.rootMessage.Author.ID)
+	ctx.SetChannelID(msn.rootMessage.ChannelID)
+	ctx.SetGuildID(msn.rootMessage.GuildID)
+
+	cmd, ok := command(cmdID)
+
+	if !strings.HasPrefix(m.Content, commanderPrefix) {
+		return
+	}
 
 	if !ok {
 		msn.Reply("Invalid command: `%v`. Type `%v help` or `/help` to list all commands.", cmdID, commanderPrefix)
