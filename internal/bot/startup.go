@@ -1,6 +1,8 @@
 package bot
 
 import (
+	"bender/internal/bot/commander"
+	"bender/internal/bot/player"
 	"fmt"
 	"os"
 
@@ -15,8 +17,14 @@ func Start() error {
 		return err
 	}
 
-	dg.AddHandler(messageHandler)
+	dg.AddHandler(commander.Processor)
 	dg.AddHandler(guildCreateHandler)
+
+	commander.SetPrefix(".b")
+
+	commander.AddCommand("play", "It plays a song.", player.Play)
+	commander.AddCommand("skip", "It skips the current song.", player.Skip)
+	commander.AddCommand("stop", "It stop all the songs.", player.Stop)
 
 	dg.Identify.Intents = discordgo.MakeIntent(discordgo.IntentsAllWithoutPrivileged)
 
