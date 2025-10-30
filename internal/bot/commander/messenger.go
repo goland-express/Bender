@@ -38,3 +38,7 @@ func (m *Messenger) Reply(format string, a ...any) {
 		log.Printf("Error sending message reply via commander messenger: %s (%s)", err, content)
 	}
 }
+
+func (m *Messenger) RootMessage() *discordgo.Message {
+	return m.rootMessage
+}
