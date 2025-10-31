@@ -2,6 +2,7 @@ package bot
 
 import (
 	"bender/internal/bot/commander"
+	"bender/internal/bot/minigames"
 	"bender/internal/bot/player"
 	"fmt"
 	"os"
@@ -25,6 +26,8 @@ func Start() error {
 	commander.AddCommand("play", "It plays a song.", player.Play)
 	commander.AddCommand("skip", "It skips the current song.", player.Skip)
 	commander.AddCommand("stop", "It stop all the songs.", player.Stop)
+
+	commander.AddCommand("dice", "Roll a dice.", minigames.Dice)
 
 	dg.Identify.Intents = discordgo.MakeIntent(discordgo.IntentsAllWithoutPrivileged)
 
