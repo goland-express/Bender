@@ -4,6 +4,7 @@ import "github.com/bwmarrin/discordgo"
 
 type Context struct {
 	Session   *discordgo.Session
+	Event     *discordgo.MessageCreate
 	GuildID   string
 	AuthorID  string
 	ChannelID string
@@ -11,7 +12,8 @@ type Context struct {
 	Args      []string
 }
 
-func NewContext(session *discordgo.Session, messenger *Messenger, args []string) *Context {
+func NewContext(session *discordgo.Session, event *discordgo.MessageCreate, args []string) *Context {
+	messenger := NewMessenger(session, event.Message)
 	return &Context{
 		Session:   session,
 		Messenger: messenger,

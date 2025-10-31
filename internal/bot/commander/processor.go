@@ -17,12 +17,11 @@ func Processor(s *discordgo.Session, m *discordgo.MessageCreate) {
 	cmdID := args[0]
 	args = args[1:]
 
-	msn := NewMessenger(s, m.Message)
-	ctx := NewContext(s, msn, args)
+	ctx := NewContext(s, m, args)
 
-	ctx.SetAuthorID(msn.rootMessage.Author.ID)
-	ctx.SetChannelID(msn.rootMessage.ChannelID)
-	ctx.SetGuildID(msn.rootMessage.GuildID)
+	ctx.SetAuthorID(m.Author.ID)
+	ctx.SetChannelID(m.ChannelID)
+	ctx.SetGuildID(m.GuildID)
 
 	cmd, ok := command(cmdID)
 
@@ -31,12 +30,12 @@ func Processor(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	if !ok {
-		msn.Reply("Invalid command: `%v`. Type `%v help` or `/help` to list all commands.", cmdID, commanderPrefix)
+		ctx.Messenger.Reply("Invalid command: `%v`. Type `%v help` or `/help` to list all commands.", cmdID, commanderPrefix)
 		return
 	}
 
 	if cmd == nil {
-		msn.Reply("This command hasn't a handler yet.")
+		ctx.Messenger.Reply("This command hasn't a handler yet.")
 		return
 	}
 
