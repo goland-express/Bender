@@ -1,6 +1,7 @@
 package commander
 
 import (
+	"regexp"
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
