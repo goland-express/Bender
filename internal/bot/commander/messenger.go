@@ -19,24 +19,30 @@ func NewMessenger(session *discordgo.Session, rootMessage *discordgo.Message) *M
 	}
 }
 
-func (m *Messenger) Send(format string, a ...any) {
+func (m *Messenger) Send(format string, a ...any) (*discordgo.Message, error) {
 	content := fmt.Sprintf(format, a...)
 
-	_, err := m.session.ChannelMessageSend(m.rootMessage.ChannelID, content)
+	msg, err := m.session.ChannelMessageSend(m.rootMessage.ChannelID, content)
 
 	if err != nil {
 		log.Printf("Error sending message via commander messenger: %s (%s)", err, content)
+		return nil, err
 	}
+
+	return msg, nil
 }
 
-func (m *Messenger) Reply(format string, a ...any) {
+func (m *Messenger) Reply(format string, a ...any) (*discordgo.Message, error) {
 	content := fmt.Sprintf(format, a...)
 
-	_, err := m.session.ChannelMessageSendReply(m.rootMessage.ChannelID, content, m.rootMessage.Reference())
+	msg, err := m.session.ChannelMessageSendReply(m.rootMessage.ChannelID, content, m.rootMessage.Reference())
 
 	if err != nil {
 		log.Printf("Error sending message reply via commander messenger: %s (%s)", err, content)
+		return nil, err
 	}
+
+	return msg, nil
 }
 
 func (m *Messenger) RootMessage() *discordgo.Message {
