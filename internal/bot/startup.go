@@ -19,6 +19,7 @@ func Start() error {
 	}
 
 	defaultRegister := commander.NewRegister(".b")
+	defaultRegister.WithHelpCommad()
 
 	player.RegisterCommands(defaultRegister)
 	minigames.RegisterCommands(defaultRegister)
