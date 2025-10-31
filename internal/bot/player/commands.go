@@ -18,6 +18,12 @@ type PlayQuery struct {
 	MsgRef    *discordgo.MessageReference
 }
 
+func RegisterCommands(register *commander.Register) {
+	register.AddCommand("play", "It plays a song.", CommandPlay)
+	register.AddCommand("skip", "It skips the current song.", CommandSkip)
+	register.AddCommand("stop", "It stop all the songs.", CommandStop)
+}
+
 func CommandPlay(ctx *commander.Context) {
 	s := ctx.Session
 	msgRef := ctx.Messenger.RootMessage().Reference()

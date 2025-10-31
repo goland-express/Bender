@@ -5,6 +5,10 @@ import (
 	"strconv"
 )
 
+func RegisterCommands(register *commander.Register) {
+	register.AddCommand("dice", "Roll a dice.", CommandDice)
+}
+
 func CommandDice(ctx *commander.Context) {
 	sides := 6
 	result := rollDice(sides)

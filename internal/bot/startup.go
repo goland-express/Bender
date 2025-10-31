@@ -20,11 +20,8 @@ func Start() error {
 
 	defaultRegister := commander.NewRegister(".b")
 
-	defaultRegister.AddCommand("play", "It plays a song.", player.CommandPlay)
-	defaultRegister.AddCommand("skip", "It skips the current song.", player.CommandSkip)
-	defaultRegister.AddCommand("stop", "It stop all the songs.", player.CommandStop)
-
-	defaultRegister.AddCommand("dice", "Roll a dice.", minigames.CommandDice)
+	player.RegisterCommands(defaultRegister)
+	minigames.RegisterCommands(defaultRegister)
 
 	dg.AddHandler(defaultRegister.Processor)
 	dg.AddHandler(guildCreateHandler)
