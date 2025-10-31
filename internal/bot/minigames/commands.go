@@ -13,7 +13,7 @@ func CommandDice(ctx *commander.Context) {
 		if s, err := strconv.Atoi(ctx.Args[0]); err == nil {
 			sides = s
 		} else {
-			ctx.Messenger.Reply("Misuse of command. Use %s dice <amount of sides>", commander.Prefix())
+			ctx.Messenger.Reply("Misuse of command. Use %s dice <amount of sides>", ctx.Register.Prefix())
 			return
 		}
 	}

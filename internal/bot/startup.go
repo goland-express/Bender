@@ -18,16 +18,16 @@ func Start() error {
 		return err
 	}
 
-	dg.AddHandler(commander.Processor)
+	defaultRegister := commander.NewRegister(".b")
+
+	defaultRegister.AddCommand("play", "It plays a song.", player.CommandPlay)
+	defaultRegister.AddCommand("skip", "It skips the current song.", player.CommandSkip)
+	defaultRegister.AddCommand("stop", "It stop all the songs.", player.CommandStop)
+
+	defaultRegister.AddCommand("dice", "Roll a dice.", minigames.CommandDice)
+
+	dg.AddHandler(defaultRegister.Processor)
 	dg.AddHandler(guildCreateHandler)
-
-	commander.SetPrefix(".b")
-
-	commander.AddCommand("play", "It plays a song.", player.CommandPlay)
-	commander.AddCommand("skip", "It skips the current song.", player.CommandSkip)
-	commander.AddCommand("stop", "It stop all the songs.", player.CommandStop)
-
-	commander.AddCommand("dice", "Roll a dice.", minigames.CommandDice)
 
 	dg.Identify.Intents = discordgo.MakeIntent(discordgo.IntentsAllWithoutPrivileged)
 

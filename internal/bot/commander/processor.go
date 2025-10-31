@@ -6,12 +6,12 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
-func Processor(s *discordgo.Session, m *discordgo.MessageCreate) {
+func (r *Register) Processor(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.Bot {
 		return
 	}
 
-	content, _ := strings.CutPrefix(m.Content, commanderPrefix)
+	content, _ := strings.CutPrefix(m.Content, r.prefix)
 	args := strings.Split(strings.TrimSpace(content), " ")
 
 	cmdID := args[0]
@@ -23,14 +23,14 @@ func Processor(s *discordgo.Session, m *discordgo.MessageCreate) {
 	ctx.SetChannelID(m.ChannelID)
 	ctx.SetGuildID(m.GuildID)
 
-	cmd, ok := command(cmdID)
+	cmd, ok := r.Command(cmdID)
 
-	if !strings.HasPrefix(m.Content, commanderPrefix) {
+	if !strings.HasPrefix(m.Content, r.prefix) {
 		return
 	}
 
 	if !ok {
-		ctx.Messenger.Reply("Invalid command: `%v`. Type `%v help` or `/help` to list all commands.", cmdID, commanderPrefix)
+		ctx.Messenger.Reply("Invalid command: `%v`. Type `%v help` or `/help` to list all commands.", cmdID, r.prefix)
 		return
 	}
 

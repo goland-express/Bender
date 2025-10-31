@@ -3,6 +3,7 @@ package commander
 import "github.com/bwmarrin/discordgo"
 
 type Context struct {
+	Register  *Register
 	Session   *discordgo.Session
 	Event     *discordgo.MessageCreate
 	GuildID   string

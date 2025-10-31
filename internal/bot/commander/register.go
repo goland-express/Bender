@@ -9,15 +9,24 @@ const (
 	errInvalidCommandIdentifier        = "command hasn't an identifier"
 )
 
-var commanderPrefix = "bender"
-var commands = make(map[string]*Command)
+type Register struct {
+	prefix   string
+	commands map[string]*Command
+}
 
-func AddCommand(identifier, description string, handler CommandHandler) (*Command, error) {
+func NewRegister(prefix string) *Register {
+	return &Register{
+		prefix:   prefix,
+		commands: make(map[string]*Command),
+	}
+}
+
+func (r *Register) AddCommand(identifier, description string, handler CommandHandler) (*Command, error) {
 	if identifier == "" {
 		return nil, errors.New(errInvalidCommandIdentifier)
 	}
 
-	_, commandExists := commands[identifier]
+	_, commandExists := r.commands[identifier]
 
 	if commandExists {
 		return nil, errors.New(errCommandIndentifierAlreadyExists)
@@ -25,21 +34,21 @@ func AddCommand(identifier, description string, handler CommandHandler) (*Comman
 
 	cmd := NewCommand(identifier, description, handler)
 
-	commands[identifier] = cmd
+	r.commands[identifier] = cmd
 
 	return cmd, nil
 }
 
-func SetPrefix(prefix string) {
-	commanderPrefix = prefix
+func (r *Register) SetPrefix(prefix string) {
+	r.prefix = prefix
 }
 
-func Prefix() string {
-	return commanderPrefix
+func (r *Register) Prefix() string {
+	return r.prefix
 }
 
-func command(identifier string) (*Command, bool) {
-	command, ok := commands[identifier]
+func (r *Register) Command(identifier string) (*Command, bool) {
+	command, ok := r.commands[identifier]
 
 	if !ok {
 		return nil, ok
