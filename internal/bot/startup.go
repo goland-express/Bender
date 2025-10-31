@@ -23,11 +23,11 @@ func Start() error {
 
 	commander.SetPrefix(".b")
 
-	commander.AddCommand("play", "It plays a song.", player.Play)
-	commander.AddCommand("skip", "It skips the current song.", player.Skip)
-	commander.AddCommand("stop", "It stop all the songs.", player.Stop)
+	commander.AddCommand("play", "It plays a song.", player.CommandPlay)
+	commander.AddCommand("skip", "It skips the current song.", player.CommandSkip)
+	commander.AddCommand("stop", "It stop all the songs.", player.CommandStop)
 
-	commander.AddCommand("dice", "Roll a dice.", minigames.Dice)
+	commander.AddCommand("dice", "Roll a dice.", minigames.CommandDice)
 
 	dg.Identify.Intents = discordgo.MakeIntent(discordgo.IntentsAllWithoutPrivileged)
 

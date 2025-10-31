@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func Dice(ctx *commander.Context) {
+func CommandDice(ctx *commander.Context) {
 	sides := 6
 	result := rollDice(sides)
 

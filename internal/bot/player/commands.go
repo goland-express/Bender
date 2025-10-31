@@ -18,7 +18,7 @@ type PlayQuery struct {
 	MsgRef    *discordgo.MessageReference
 }
 
-func Play(ctx *commander.Context) {
+func CommandPlay(ctx *commander.Context) {
 	s := ctx.Session
 	msgRef := ctx.Messenger.RootMessage().Reference()
 
@@ -91,7 +91,7 @@ func Play(ctx *commander.Context) {
 	player.play(track)
 }
 
-func Stop(ctx *commander.Context) {
+func CommandStop(ctx *commander.Context) {
 	p, err := players.player(ctx.GuildID)
 
 	if err != nil {
@@ -101,7 +101,7 @@ func Stop(ctx *commander.Context) {
 	p.eventChannel <- eventStop
 }
 
-func Skip(ctx *commander.Context) {
+func CommandSkip(ctx *commander.Context) {
 	p, err := players.player(ctx.GuildID)
 
 	if err != nil {
