@@ -14,12 +14,10 @@ type Context struct {
 }
 
 func NewContext(register *Register, session *discordgo.Session, event *discordgo.MessageCreate, args []string) *Context {
-	messenger := NewMessenger(session, event.Message)
 	return &Context{
-		Register:  register,
-		Session:   session,
-		Messenger: messenger,
-		Args:      args,
+		Register: register,
+		Session:  session,
+		Args:     args,
 	}
 }
 

@@ -18,7 +18,7 @@ func Start() error {
 		return err
 	}
 
-	defaultRegister := commander.NewRegister(".b")
+	defaultRegister := commander.NewRegister("b.")
 	defaultRegister.WithHelpCommad()
 
 	player.RegisterCommands(defaultRegister)

@@ -11,31 +11,42 @@ func (r *Register) Processor(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	content, _ := strings.CutPrefix(m.Content, r.prefix)
-	args := strings.Split(strings.TrimSpace(content), " ")
+	if !strings.HasPrefix(m.Content, r.prefix) {
+		return
+	}
 
-	cmdID := args[0]
-	args = args[1:]
+	messenger := NewMessenger(s, m.Message)
+
+	content, _ := strings.CutPrefix(m.Content, r.prefix)
+
+	invalidCommand, _ := regexp.Match("^(\\s+).*?$", []byte(content))
+
+	if invalidCommand {
+		messenger.Reply("Invalid usage, try `%v<command>`. Type `%vhelp` or `/help` to list all commands.", r.prefix, r.prefix)
+		return
+	}
+
+	splitContent := strings.Split(content, " ")
+
+	cmdID := splitContent[0]
+	args := splitContent[1:]
 
 	ctx := NewContext(r, s, m, args)
 
+	ctx.SetMessenger(messenger)
 	ctx.SetAuthorID(m.Author.ID)
 	ctx.SetChannelID(m.ChannelID)
 	ctx.SetGuildID(m.GuildID)
 
 	cmd, ok := r.Command(cmdID)
 
-	if !strings.HasPrefix(m.Content, r.prefix) {
-		return
-	}
-
 	if !ok {
-		ctx.Messenger.Reply("Invalid command: `%v`. Type `%v help` or `/help` to list all commands.", cmdID, r.prefix)
+		messenger.Reply("Invalid command: `%v`. Type `%v help` or `/help` to list all commands.", cmdID, r.prefix)
 		return
 	}
 
 	if cmd == nil {
-		ctx.Messenger.Reply("This command hasn't a handler yet.")
+		messenger.Reply("This command hasn't a handler yet.")
 		return
 	}
 
