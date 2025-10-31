@@ -34,6 +34,10 @@ func SetPrefix(prefix string) {
 	commanderPrefix = prefix
 }
 
+func Prefix() string {
+	return commanderPrefix
+}
+
 func command(identifier string) (*Command, bool) {
 	command, ok := commands[identifier]
 
