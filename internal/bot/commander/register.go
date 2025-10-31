@@ -2,6 +2,8 @@ package commander
 
 import (
 	"errors"
+	"iter"
+	"maps"
 )
 
 const (
@@ -55,4 +57,10 @@ func (r *Register) Command(identifier string) (*Command, bool) {
 	}
 
 	return command, true
+}
+
+func (r *Register) Commands() iter.Seq[*Command] {
+	commands := maps.Values(r.commands)
+
+	return commands
 }

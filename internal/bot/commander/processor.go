@@ -17,7 +17,7 @@ func (r *Register) Processor(s *discordgo.Session, m *discordgo.MessageCreate) {
 	cmdID := args[0]
 	args = args[1:]
 
-	ctx := NewContext(s, m, args)
+	ctx := NewContext(r, s, m, args)
 
 	ctx.SetAuthorID(m.Author.ID)
 	ctx.SetChannelID(m.ChannelID)
